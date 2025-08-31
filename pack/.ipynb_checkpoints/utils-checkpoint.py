@@ -58,7 +58,7 @@ def category_descriptive_stat(df, columns):
         columns: la liste des colonnes à parcourirs dans le dataframe
     """
     for column in columns:
-        print(f"\nPour la colonne {columns}")
+        print(f"\nPour la colonne {column}")
         display(
             pd.DataFrame({
                 "effectif": df[column].value_counts(dropna=False),
@@ -118,14 +118,16 @@ def outlier_detect_iqr(df, column):
     lower_bound = Q1 - 1.5*IQR
     upper_bound = Q3 + 1.5*IQR
 
-    outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound )]
+    outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound )].index
+    outliers_idx = df[(df[column] < lower_bound) | (df[column] > upper_bound )].index
 
     print(f"Colonne {column}")
     print(f"Q1 = {Q1}, Q3 = {Q3}, IQR = {IQR}")
     print(f"Borne inf = {lower_bound}, Borne sup = {upper_bound}")
     print(f"Nombre d’outliers = {outliers.shape[0]}")
+    print("\n\n")
     
-    return outliers
+    return outliers_idx
 
 
 def correlation_filter(corr_matrix, targets, threshold):
@@ -138,11 +140,15 @@ def correlation_filter(corr_matrix, targets, threshold):
         targets: Les variables ou la variable sur laquelle les corrélations se font
         threshold: Le seuil de corrélation à respecter
     """
+    corr = dict()
     for target in targets:
         selected = corr_matrix[target].abs()
         selected = selected[selected >= threshold].index.tolist()
-        selected = [col for col in selected if col != target]
+        #selected = [col for col in selected if col != target]
+        corr[target] = selected
         print(f"Les colonnes corrélées au seuil de {threshold} avec {target} sont: {selected} \n")
+
+    return corr
         
         
         
