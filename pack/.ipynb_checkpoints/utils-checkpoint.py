@@ -132,12 +132,12 @@ def outlier_detect_iqr(df, column):
 
 def correlation_filter(corr_matrix, targets, threshold):
     """
-        Fonction qui accihe une liste de colonne à garder selon un seuil de corrélation défini sur une matrice de corrélation
+        Fonction qui retourne une liste de colonne à garder selon un seuil de corrélation défini sur une matrice de corrélation
 
         parameters:
         -----------------------
         corr_matrix: Matrice de corrélation
-        targets: Les variables ou la variable sur laquelle les corrélations se font
+        targets: liste des variables ou de la variable sur laquelle les corrélations se font
         threshold: Le seuil de corrélation à respecter
     """
     corr = dict()
